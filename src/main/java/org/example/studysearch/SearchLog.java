@@ -58,4 +58,15 @@ public class SearchLog {
     public void setLogName(String logName) {
         this.logName = logName;
     }
+
+    public void logSearch(String query) {
+        addSearchHistory(query);
+        numUsages++;
+    }
+
+    public String logSearchAndGetSummary(String query) {
+        addSearchHistory(query);
+        numUsages++;
+        return "\nLogged in: " + logName;
+    }
 }

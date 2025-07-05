@@ -105,4 +105,32 @@ public class LeitnerSystem extends StudyMethod{
         boxes.get(Math.max(boxId - 1, 0)).addCard(cardId);
     }
 
+    public String getRandomCardFromAllBoxes() {
+        StringBuilder response = new StringBuilder();
+        response.append(getMethodName());
+
+        if (boxes == null || boxes.isEmpty()) {
+            response.append("No card found");
+            return response.toString();
+        }
+
+        Box allBoxes = new Box();
+        for (Box box : boxes) {
+            allBoxes.addCards(box.getCards());
+        }
+
+        Integer randomCard = allBoxes.getRandomCard();
+        if (randomCard == null) {
+            response.append("No card found");
+            return response.toString();
+        }
+
+        Card card = cardManager.getCard(randomCard);
+        response.append("[").append(randomCard).append("] ");
+        response.append("The random question was: ").append(card.getQuestion()).append(" | ");
+        response.append("The answer is: ").append(card.getAnswer());
+
+        return response.toString();
+    }
+
 }
