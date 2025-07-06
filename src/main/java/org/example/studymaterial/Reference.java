@@ -1,103 +1,112 @@
 package org.example.studymaterial;
 
 public abstract class Reference {
-    private String title;
-    private String description;
-    private String link;
-    private String accessRights;
-    private String license;
-    private boolean isDownloadable;
-    private int rating;
-    private String language;
-    private int viewCount;
-    private int downloadCount;
-    private int shareCount;
+
+    // New private nested class holding all fields
+     protected class ReferenceData {
+        private String title;
+        private String description;
+        private String link;
+        private String accessRights;
+        private String license;
+        private boolean isDownloadable;
+        private int rating;
+        private String language;
+        private int viewCount;
+        private int downloadCount;
+        private int shareCount;
+    }
+
+    private ReferenceData data = new ReferenceData();
+
+    public Reference() {
+    }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.data.title = title;
     }
 
     public String getTitle() {
-        return title;
+        return this.data.title;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.data.description = description;
     }
 
     public String getDescription() {
-        return description;
+        return this.data.description;
     }
 
     public void setLink(String link) {
-        this.link = link;
+        this.data.link = link;
     }
 
     public String getLink() {
-        return link;
+        return this.data.link;
     }
 
     public String getAccessRights() {
-        return accessRights;
+        return this.data.accessRights;
     }
 
     public void setAccessRights(String accessRights) {
-        this.accessRights = accessRights;
+        this.data.accessRights = accessRights;
     }
 
     public String getLicense() {
-        return license;
+        return this.data.license;
     }
 
     public void setLicense(String license) {
-        this.license = license;
+        this.data.license = license;
     }
 
     public boolean getIsDownloadable() {
-        return isDownloadable;
+        return this.data.isDownloadable;
     }
 
     public void setDownloadable(boolean downloadable) {
-        isDownloadable = downloadable;
+        this.data.isDownloadable = downloadable;
     }
 
     public int getRating() {
-        return rating;
+        return this.data.rating;
     }
 
     public void setRating(int rating) {
-        this.rating = rating;
+        this.data.rating = rating;
     }
 
     public String getLanguage() {
-        return language;
+        return this.data.language;
     }
 
     public void setLanguage(String language) {
-        this.language = language;
+        this.data.language = language;
     }
 
     public int getViewCount() {
-        return viewCount;
+        return this.data.viewCount;
     }
 
     public void setViewCount(int viewCount) {
-        this.viewCount = viewCount;
+        this.data.viewCount = viewCount;
     }
 
     public int getDownloadCount() {
-        return downloadCount;
+        return this.data.downloadCount;
     }
 
     public void setDownloadCount(int downloadCount) {
-        this.downloadCount = downloadCount;
+        this.data.downloadCount = downloadCount;
     }
 
     public int getShareCount() {
-        return shareCount;
+        return this.data.shareCount;
     }
 
     public void setShareCount(int shareCount) {
-        this.shareCount = shareCount;
+        this.data.shareCount = shareCount;
     }
 }
