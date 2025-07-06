@@ -22,7 +22,7 @@ class StudyGoalTest {
     }
 
     void setStudyPlan(){
-        studyPlan.addSingleStep("Test Step 1");
+        studyPlan.addStep("Test Step 1");
     }
 
     void setStudyGoal(){

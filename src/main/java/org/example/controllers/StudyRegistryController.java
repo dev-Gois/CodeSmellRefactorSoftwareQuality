@@ -144,16 +144,58 @@ public class StudyRegistryController {
         return plan;
     }
 
-    private void handleSetSteps(StudyPlan studyPlan){
+    private void handleSetSteps(StudyPlan studyPlan) {
         handleMethodHeader("(Study Plan Edit)");
-        System.out.println("Type the following info: String firstStep, String resetStudyMechanism, String consistentStep, " +
-                "String seasonalSteps, String basicSteps, String mainObjectiveTitle, String mainGoalTitle, String mainMaterialTopic, " +
-                "String mainTask, @NotNull  Integer numberOfSteps, boolean isImportant. " +
-                "The Date to start is today, the date to end is x days from now, type the quantity of days\n");
-        LocalDateTime createdAT = LocalDateTime.now();
-        studyPlan.assignSteps(getInput(), getInput(), getInput(), getInput(), getInput(), getInput(), getInput(), getInput(), getInput(),
-                Integer.parseInt(getInput()), Boolean.parseBoolean(getInput()), createdAT, createdAT.plusDays(Long.parseLong(getInput())));
+        System.out.println("Type the following info: String firstStep, String resetStudyMechanism, consistentStep, seasonalSteps, " +
+                "basicSteps, mainObjectiveTitle, mainGoalTitle, mainMaterialTopic, mainTask, @NotNull Integer numberOfSteps, " +
+                "boolean isImportant. The Date to start is today, the date to end is x days from now, type the quantity of days\n");
+
+        List<String> inputs = collectStepStrings(9);
+        Map<String, String> stepsMap = mapStepStrings(inputs);
+        int numberOfSteps = parseIntInput();
+        boolean isImportant = parseBooleanInput();
+        long daysToAdd = parseLongInput();
+
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime endDate = createdAt.plusDays(daysToAdd);
+
+        studyPlan.assignSteps(stepsMap, numberOfSteps, isImportant, createdAt, endDate);
     }
+
+    private List<String> collectStepStrings(int count) {
+        List<String> inputs = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            inputs.add(getInput());
+        }
+        return inputs;
+    }
+
+    private Map<String, String> mapStepStrings(List<String> inputs) {
+        return Map.of(
+                "firstStep", inputs.get(0),
+                "resetStudyMechanism", inputs.get(1),
+                "consistentStep", inputs.get(2),
+                "seasonalSteps", inputs.get(3),
+                "basicSteps", inputs.get(4),
+                "mainObjectiveTitle", inputs.get(5),
+                "mainGoalTitle", inputs.get(6),
+                "mainMaterialTopic", inputs.get(7),
+                "mainTask", inputs.get(8)
+        );
+    }
+
+    private int parseIntInput() {
+        return Integer.parseInt(getInput());
+    }
+
+    private boolean parseBooleanInput() {
+        return Boolean.parseBoolean(getInput());
+    }
+
+    private long parseLongInput() {
+        return Long.parseLong(getInput());
+    }
+
 
     private StudyGoal getStudyGoalInfo(){
         handleMethodHeader("(Study Goal Creation)");
