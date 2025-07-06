@@ -51,15 +51,76 @@ public class StudyRegistryController {
         studyTaskManager.addRegistry(task);
     }
 
-    private void handleSetObjective(StudyObjective objective){
+    private void handleSetObjective(StudyObjective objective) {
         handleMethodHeader("(Study Objective Edit)");
-        System.out.println("Type the following info: Integer id, Integer priority " +
-                "Integer practicedDays, int day, int month, int year, String name, String title, String description, " +
-                "String topic, String objectiveInOneLine, String objectiveFullDescription, String motivation, " +
-                "Double duration, boolean isActive  \n");
-        objective.handleSetObjective(Integer.parseInt(getInput()), Integer.parseInt(getInput()),Integer.parseInt(getInput()),Integer.parseInt(getInput()),Integer.parseInt(getInput()),
-                Integer.parseInt(getInput()), getInput(), getInput(), getInput(), getInput(), getInput(), getInput(), getInput(),
-                Double.parseDouble(getInput()), Boolean.parseBoolean(getInput()));
+        System.out.println("Type the following info: Integer id, Integer priority, Integer practicedDays, int day, int month, int year, " +
+                "String name, String title, String description, String topic, String objectiveInOneLine, String objectiveFullDescription, " +
+                "String motivation, Double duration, boolean isActive\n");
+
+        var registry = readRegistryInput();
+        var textual = readTextualInput();
+        var timing = readTimingInput();
+
+        objective.handleSetRegistry(registry.id, registry.name, registry.priority, registry.isActive);
+        objective.handleSetTextualInfo(textual.title, textual.description, textual.topic, textual.objectiveInOneLine,
+                textual.objectiveFullDescription, textual.motivation);
+        objective.handleSetTime(timing.practicedDays, timing.day, timing.month, timing.year, timing.duration);
+    }
+
+// --- Separate small input readers ---
+
+    private RegistryInput readRegistryInput() {
+        RegistryInput input = new RegistryInput();
+        input.id = Integer.parseInt(getInput());
+        input.priority = Integer.parseInt(getInput());
+        input.name = getInput();
+        input.isActive = Boolean.parseBoolean(getInput());
+        return input;
+    }
+
+    private TextualInput readTextualInput() {
+        TextualInput input = new TextualInput();
+        input.title = getInput();
+        input.description = getInput();
+        input.topic = getInput();
+        input.objectiveInOneLine = getInput();
+        input.objectiveFullDescription = getInput();
+        input.motivation = getInput();
+        return input;
+    }
+
+    private TimingInput readTimingInput() {
+        TimingInput input = new TimingInput();
+        input.practicedDays = Integer.parseInt(getInput());
+        input.day = Integer.parseInt(getInput());
+        input.month = Integer.parseInt(getInput());
+        input.year = Integer.parseInt(getInput());
+        input.duration = Double.parseDouble(getInput());
+        return input;
+    }
+
+// --- Input holder classes ---
+
+    private static class RegistryInput {
+        Integer id;
+        Integer priority;
+        String name;
+        boolean isActive;
+    }
+
+    private static class TextualInput {
+        String title;
+        String description;
+        String topic;
+        String objectiveInOneLine;
+        String objectiveFullDescription;
+        String motivation;
+    }
+
+    private static class TimingInput {
+        Integer practicedDays;
+        int day, month, year;
+        Double duration;
     }
 
     private StudyObjective getStudyObjectiveInfo(){
