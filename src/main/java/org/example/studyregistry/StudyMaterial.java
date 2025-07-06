@@ -58,29 +58,52 @@ public class StudyMaterial{
         return response;
     }
 
-    public Map<String, Integer> getReferenceCountMap(){
-        Map<String, Integer> response = new HashMap<>();
-        response.put("Audio References", 0);
-        response.put("Video References", 0);
-        response.put("Text References", 0);
-        for (Reference reference : references) {
-            if (reference.getClass() == AudioReference.class) {
-                Integer audioCount = response.get("Audio References");
-                response.put("Audio References", audioCount + 1);
-            } else if (reference.getClass() == VideoReference.class) {
-                if(((VideoReference) reference).handleStreamAvailability()){
-                    Integer videoCount = response.get("Video References");
-                    response.put("Video References", videoCount + 1);
-                }
-            } else if (reference.getClass() == TextReference.class){
-                if(((TextReference) reference).handleTextAccess()){
-                    Integer textCount = response.get("Text References");
-                    response.put("Text References", textCount + 1);
-                }
-            }
-        }
+    public Map<String, Integer> getReferenceCountMap() {
+        Map<String, Integer> response = initializeReferenceCountMap();
+        countReferencesByType(response);
         setReferenceCount(response);
         return response;
     }
+
+    private Map<String, Integer> initializeReferenceCountMap() {
+        Map<String, Integer> referenceMap = new HashMap<>();
+        referenceMap.put("Audio References", 0);
+        referenceMap.put("Video References", 0);
+        referenceMap.put("Text References", 0);
+        return referenceMap;
+    }
+
+    private void countReferencesByType(Map<String, Integer> referenceMap) {
+        for (Reference reference : references) {
+            if (reference.getClass() == AudioReference.class) {
+                handleAudioReference(referenceMap);
+            } else if (reference.getClass() == VideoReference.class) {
+                handleVideoReference(referenceMap, (VideoReference) reference);
+            } else if (reference.getClass() == TextReference.class) {
+                handleTextReference(referenceMap, (TextReference) reference);
+            }
+        }
+    }
+
+    private void handleAudioReference(Map<String, Integer> referenceMap) {
+        incrementCount(referenceMap, "Audio References");
+    }
+
+    private void handleVideoReference(Map<String, Integer> referenceMap, VideoReference reference) {
+        if (reference.handleStreamAvailability()) {
+            incrementCount(referenceMap, "Video References");
+        }
+    }
+
+    private void handleTextReference(Map<String, Integer> referenceMap, TextReference reference) {
+        if (reference.handleTextAccess()) {
+            incrementCount(referenceMap, "Text References");
+        }
+    }
+
+    private void incrementCount(Map<String, Integer> map, String key) {
+        map.put(key, map.get(key) + 1);
+    }
+
 
 }
