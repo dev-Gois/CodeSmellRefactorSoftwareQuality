@@ -12,8 +12,21 @@ public class StudyTaskManager {
     List<Registry> registryList;
     List<String> weekResponsibilities = List.of();
 
+    // Temporary fields for setup
+    private String planName;
+    private String objectiveTitle;
+    private String objectiveDescription;
+    private String materialTopic;
+    private String materialFormat;
+    private String goal;
+    private String reminderTitle;
+    private String reminderDescription;
+    private String mainTaskTitle;
+    private String mainHabit;
+    private String mainCardStudy;
+
     private StudyTaskManager(){
-        this.registryList = new ArrayList<Registry>();
+        this.registryList = new ArrayList<>();
     }
 
     public static StudyTaskManager getStudyTaskManager(){
@@ -27,19 +40,95 @@ public class StudyTaskManager {
         return weekResponsibilities;
     }
 
-    public void setUpWeek(String planName, String objectiveTitle, String objectiveDescription, String materialTopic,
-                          String materialFormat, String goal, String reminderTitle, String reminderDescription,
-                          String mainTaskTitle, String mainHabit, String mainCardStudy){
-        this.weekResponsibilities = new ArrayList<>();
-        this.weekResponsibilities.addAll(Arrays.asList(planName, objectiveTitle, objectiveDescription, materialTopic, materialFormat, goal, reminderTitle, reminderDescription, mainTaskTitle, mainHabit, mainCardStudy));
+    // Chained setters for each property
+    public StudyTaskManager setPlanName(String planName) {
+        this.planName = planName;
+        return this;
     }
+
+    public StudyTaskManager setObjectiveTitle(String objectiveTitle) {
+        this.objectiveTitle = objectiveTitle;
+        return this;
+    }
+
+    public StudyTaskManager setObjectiveDescription(String objectiveDescription) {
+        this.objectiveDescription = objectiveDescription;
+        return this;
+    }
+
+    public StudyTaskManager setMaterialTopic(String materialTopic) {
+        this.materialTopic = materialTopic;
+        return this;
+    }
+
+    public StudyTaskManager setMaterialFormat(String materialFormat) {
+        this.materialFormat = materialFormat;
+        return this;
+    }
+
+    public StudyTaskManager setGoal(String goal) {
+        this.goal = goal;
+        return this;
+    }
+
+    public StudyTaskManager setReminderTitle(String reminderTitle) {
+        this.reminderTitle = reminderTitle;
+        return this;
+    }
+
+    public StudyTaskManager setReminderDescription(String reminderDescription) {
+        this.reminderDescription = reminderDescription;
+        return this;
+    }
+
+    public StudyTaskManager setMainTaskTitle(String mainTaskTitle) {
+        this.mainTaskTitle = mainTaskTitle;
+        return this;
+    }
+
+    public StudyTaskManager setMainHabit(String mainHabit) {
+        this.mainHabit = mainHabit;
+        return this;
+    }
+
+    public StudyTaskManager setMainCardStudy(String mainCardStudy) {
+        this.mainCardStudy = mainCardStudy;
+        return this;
+    }
+
+    // Call this to finalize and set the weekResponsibilities list
+    public void applyWeekSetup() {
+        this.weekResponsibilities = new ArrayList<>(Arrays.asList(
+                planName,
+                objectiveTitle,
+                objectiveDescription,
+                materialTopic,
+                materialFormat,
+                goal,
+                reminderTitle,
+                reminderDescription,
+                mainTaskTitle,
+                mainHabit,
+                mainCardStudy
+        ));
+    }
+
+    // Your other existing methods unchanged...
 
     public void handleSetUpWeek(List<String> stringProperties){
-        setUpWeek(stringProperties.get(0), stringProperties.get(1), stringProperties.get(2), stringProperties.get(3),
-                stringProperties.get(4), stringProperties.get(5), stringProperties.get(6), stringProperties.get(7),
-                stringProperties.get(8), stringProperties.get(9), stringProperties.get(10));
+        setPlanName(stringProperties.get(0))
+                .setObjectiveTitle(stringProperties.get(1))
+                .setObjectiveDescription(stringProperties.get(2))
+                .setMaterialTopic(stringProperties.get(3))
+                .setMaterialFormat(stringProperties.get(4))
+                .setGoal(stringProperties.get(5))
+                .setReminderTitle(stringProperties.get(6))
+                .setReminderDescription(stringProperties.get(7))
+                .setMainTaskTitle(stringProperties.get(8))
+                .setMainHabit(stringProperties.get(9))
+                .setMainCardStudy(stringProperties.get(10))
+                .applyWeekSetup();
     }
-
 
     public void addRegistry(Registry registry){
         registryList.add(registry);
@@ -61,5 +150,4 @@ public class StudyTaskManager {
         }
         return response;
     }
-
 }
